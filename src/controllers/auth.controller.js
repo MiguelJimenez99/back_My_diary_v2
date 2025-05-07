@@ -17,7 +17,6 @@ exports.register = async (req, res) => {
     if (userExist) {
       return res.status(400).json({
         message: "El Usuario ya esta registrado",
-        error: error,
       });
     }
 
