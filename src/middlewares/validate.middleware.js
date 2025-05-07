@@ -5,7 +5,7 @@ module.exports = (req, res, next) => {
   if (!errors.isEmpty()) {
     return res.status(400).json({
       status: false,
-      errors: errors.array(),
+      message: errors.array(),
     });
   }
   next();
