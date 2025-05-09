@@ -12,6 +12,7 @@ app.use(express.json());
 
 const authRoutes = require('./routes/auth.routes.js');
 app.use('/api/auth', authRoutes);
+app.use('/api/user', authRoutes);
 
 mongoose.connect(process.env.URL_DATABASE)
   .then(() => console.log('MongoDb conectado correctamente'))
