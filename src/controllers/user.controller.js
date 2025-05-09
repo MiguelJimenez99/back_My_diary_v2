@@ -43,7 +43,10 @@ exports.userUpdateData = async (req, res) => {
 
     const userUpdate = user;
 
-    res.status(200).json(userUpdate);
+    res.status(200).json({
+      message: "Datos actualizados correctamente",
+      user: userUpdate,
+    });
   } catch (error) {
     res.status(500).json({ message: "Error al actualizar el usuario" });
   }
