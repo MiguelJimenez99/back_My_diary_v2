@@ -38,13 +38,13 @@ exports.postDiary = async (req, res) => {
       description,
       date,
       mood,
-      userId: idUser,
+      idUser,
     });
 
     await newPostDiary.save();
     res.status(200).json({
       message: "Actividad registrada",
-      post: newPostDiary,
+      post: newPostDiary.toObject(),
     });
   } catch (error) {
     res.status(500).json({ message: "Error al crear el diario." });
