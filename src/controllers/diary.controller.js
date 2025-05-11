@@ -47,7 +47,6 @@ exports.postDiary = async (req, res) => {
       post: newPostDiary,
     });
   } catch (error) {
-    console.error(error);
     res.status(500).json({ message: "Error al crear el diario." });
   }
 };
