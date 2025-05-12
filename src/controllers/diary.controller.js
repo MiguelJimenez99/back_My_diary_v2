@@ -9,6 +9,7 @@ exports.getDiary = async (req, res) => {
     if (!diarysUser || diarysUser.length == 0) {
       return res.status(200).json({
         message: "No tienes actividades registradas",
+        posts: [],
       });
     }
 
