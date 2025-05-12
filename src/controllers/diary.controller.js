@@ -38,7 +38,7 @@ exports.postDiary = async (req, res) => {
       description,
       date,
       mood,
-      idUser,
+      userId: idUser,
     });
 
     await newPostDiary.save();
@@ -50,40 +50,3 @@ exports.postDiary = async (req, res) => {
     res.status(500).json({ message: "Error al crear el diario." });
   }
 };
-
-// exports.updatePost = async (req, res) => {
-//   try {
-//     const diaryId = req.params;
-//     const userId = req.userId;
-
-//     const diary = await Diary.findById(diaryId);
-
-//     if (!diary) {
-//       return res.status(400).json({
-//         message: "actividad no encontrada",
-//       });
-//     }
-
-//     if (diary.userId.toString() !== userId) {
-//       return res
-//         .status(403)
-//         .json({ message: "No tienes permisos para actualizar esta actividad" });
-//     }
-
-//     const { title, description, date, mood } = req.body;
-
-//     if (title !== undefined) diary.title = title;
-//     if (description !== undefined) diary.description = description;
-//     if (date !== undefined) diary.date = date;
-//     if (mood !== undefined) diary.mood = mood;
-
-//     await diary.save(); // Guardar cambios
-
-//     res
-//       .status(200)
-//       .json({ message: "Actividad actualizada exitosamente", diary });
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ message: "Error al actualizar la actividad" });
-//   }
-// };
