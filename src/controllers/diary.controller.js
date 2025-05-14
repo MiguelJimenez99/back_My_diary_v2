@@ -23,31 +23,34 @@ exports.getDiary = async (req, res) => {
   }
 };
 
-exports.postDiary = async (req, res) => {
-  try {
-    const idUser = req.userId;
-    const { title, description, date, mood } = req.body;
+  exports.postDiary = async (req, res) => {
+    try {
+      const idUser = req.userId;
+      
+      const { title, description, mood, date } = req.body;
 
-    if (!title || !description || !date || !mood) {
-      return res.status(400).json({
-        message: "Todos los datos son requeridos",
+      if (!title || !description || !date || !mood) {
+        return res.status(400).json({
+          message: "Todos los datos son requeridos",
+        });
+      }
+
+      const newPostDiary = new Diary({
+        title,
+        description,
+        date: new Date(date),
+        mood,
+        userId: idUser,
+      });
+
+      await newPostDiary.save();
+      res.status(200).json({
+        message: "Actividad registrada",
+        post: newPostDiary,
+      });
+    } catch (error) {
+      res.status(500).json({
+        message: "Error al crear el diario.",
       });
     }
-
-    const newPostDiary = new Diary({
-      title,
-      description,
-      date,
-      mood,
-      userId: idUser,
-    });
-
-    await newPostDiary.save();
-    res.status(200).json({
-      message: "Actividad registrada",
-      post: newPostDiary,
-    });
-  } catch (error) {
-    res.status(500).json({ message: "Error al crear el diario." });
-  }
-};
+  };
