@@ -2,7 +2,6 @@ const mongoose = require("mongoose");
 
 const photoSchema = mongoose.Schema(
   {
-    title: { type: String, trim: true },
     description: { type: String, trim: true },
     photo: { type: String, required: true },
     userId: {

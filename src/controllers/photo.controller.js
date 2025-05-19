@@ -26,7 +26,7 @@ exports.getPhoto = async (req, res) => {
 exports.uploadPhoto = async (req, res) => {
   try {
     const userId = req.userId;
-    const { title, description } = req.body;
+    const { description } = req.body;
 
     if (!req.file || !req.file.path) {
       return res.status(400).json({
@@ -35,7 +35,6 @@ exports.uploadPhoto = async (req, res) => {
     }
 
     const newPhoto = new Photo({
-      title,
       description,
       userId,
       photo: req.file.path, // url publica en cloudinary
@@ -46,6 +45,32 @@ exports.uploadPhoto = async (req, res) => {
     res.status(200).json({
       message: "Foto agregada correctamente",
       photo: savePhoto,
+      error: console.log(savePhoto),
+    });
+  } catch (error) {
+    res.status(500).json({
+      error: console.log(error),
+      message: "Error en el servidor",
+    });
+  }
+};
+
+exports.deletePhoto = async (req, res) => {
+  try {
+    const userId = req.userId;
+    const photoId = req.params.id;
+
+    const photo = await Photo.findById(photoId);
+
+    if (photo.userId.toString() !== userId.toString()) {
+      return res.status(403).json({
+        message: "No tienes permisos para eliminar esta foto",
+      });
+    }
+
+    await Photo.findByIdAndDelete(photoId);
+    res.status(200).json({
+      message: "Imagen eliminada correctamente",
     });
   } catch (error) {
     res.status(500).json({

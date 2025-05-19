@@ -5,7 +5,7 @@ const { CloudinaryStorage } = require("multer-storage-cloudinary");
 const cloudinary = require("../config/cloudinary");
 
 const path = require("path");
-const { uploadPhoto, getPhoto } = require("../controllers/photo.controller");
+const { uploadPhoto, getPhoto ,deletePhoto} = require("../controllers/photo.controller");
 const { verifyToken } = require("../middlewares/auth.middleware");
 const router = express.Router();
 
@@ -24,5 +24,6 @@ const upload = multer({ storage });
 
 router.get("/getPhotos", verifyToken, getPhoto);
 router.post("/newPhoto", verifyToken, upload.single("photo"), uploadPhoto);
+router.delete("/delPhoto/:id", verifyToken, deletePhoto);
 
 module.exports = router;
