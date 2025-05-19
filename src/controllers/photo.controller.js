@@ -1,4 +1,5 @@
 const Photo = require("../models/photo.model");
+const cloudinary = require("cloudinary").v2;
 
 exports.getPhoto = async (req, res) => {
   try {
@@ -34,10 +35,13 @@ exports.uploadPhoto = async (req, res) => {
       });
     }
 
+    await cloudinary.uploader.upload(req.file.path);
+
     const newPhoto = new Photo({
       description,
       userId,
-      photo: req.file.path, // url publica en cloudinary
+      url: req.file.path,
+      cloudinaryId: req.file.filename,
     });
 
     const savePhoto = await newPhoto.save();
@@ -45,7 +49,6 @@ exports.uploadPhoto = async (req, res) => {
     res.status(200).json({
       message: "Foto agregada correctamente",
       photo: savePhoto,
-      error: console.log(savePhoto),
     });
   } catch (error) {
     res.status(500).json({
@@ -68,13 +71,19 @@ exports.deletePhoto = async (req, res) => {
       });
     }
 
+    await cloudinary.uploader.destroy(photo.cloudinaryId, {
+      resource_type: "image",
+    });
+
     await Photo.findByIdAndDelete(photoId);
     res.status(200).json({
       message: "Imagen eliminada correctamente",
     });
   } catch (error) {
+    console.error("Error al eliminar foto:", error); // ✅ esto para ver el error en consola
     res.status(500).json({
       message: "Error en el servidor",
+      error: error.message || error,
     });
   }
 };

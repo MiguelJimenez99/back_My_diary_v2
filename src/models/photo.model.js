@@ -3,7 +3,11 @@ const mongoose = require("mongoose");
 const photoSchema = mongoose.Schema(
   {
     description: { type: String, trim: true },
-    photo: { type: String, required: true },
+    url: { type: String, required: true },
+    cloudinaryId: {
+      type: String,
+      required: true,
+    },
     userId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Users",
