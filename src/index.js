@@ -13,6 +13,7 @@ app.use(express.json());
 const authRoutes = require('./routes/auth.routes.js');
 const diaryRoutes = require('./routes/diary.routes.js');
 const photoRoutes = require('./routes/photo.routes.js');
+const noteRoutes = require('./routes/note.routes.js');
 
 app.use('/api/auth', authRoutes);
 app.use('/api/user', authRoutes);
@@ -20,6 +21,7 @@ app.use('/api/user/diary', diaryRoutes);
 
 app.use('/uploads', express.static("uploads"));
 app.use('/api/user/photos', photoRoutes);
+app.use('/api/user/notes', noteRoutes);
 
 mongoose.connect(process.env.URL_DATABASE)
   .then(() => console.log('MongoDb conectado correctamente'))
