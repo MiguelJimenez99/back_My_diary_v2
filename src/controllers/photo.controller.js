@@ -5,7 +5,7 @@ exports.getPhoto = async (req, res) => {
   try {
     const userId = req.userId;
 
-    const photosUser = await Photo.find({ userId }).sort({ date: -1 });
+    const photosUser = await Photo.find({ userId }).sort({ createdAt: -1 });
 
     if (!photosUser || photosUser.length == 0) {
       return res.status(200).json({
@@ -40,6 +40,7 @@ exports.uploadPhoto = async (req, res) => {
     const newPhoto = new Photo({
       description,
       userId,
+      createdAt: new Date(),
       url: req.file.path,
       cloudinaryId: req.file.filename,
     });
@@ -51,8 +52,9 @@ exports.uploadPhoto = async (req, res) => {
       photo: savePhoto,
     });
   } catch (error) {
+    console.log(error);
     res.status(500).json({
-      error: console.log(error),
+      error: error.message,
       message: "Error en el servidor",
     });
   }

@@ -5,7 +5,7 @@ exports.getDiary = async (req, res) => {
   try {
     const userId = req.userId;
 
-    const diarysUser = await Diary.find({ userId }).sort({ date: -1 });
+    const diarysUser = await Diary.find({ userId }).sort({ createdAt: -1 });
 
     if (!diarysUser || diarysUser.length == 0) {
       return res.status(200).json({
@@ -40,6 +40,7 @@ exports.postDiary = async (req, res) => {
       title,
       description,
       date: new Date(date),
+      createdAt: new Date(),
       mood,
       userId: idUser,
     });
@@ -84,12 +85,12 @@ exports.updateDiary = async (req, res) => {
     );
 
     res.status(200).json({
-      message: 'Entrada Actualizada correctamente',
+      message: "Entrada Actualizada correctamente",
       diary: updatedDiary,
     });
   } catch (error) {
     res.status(500).json({
-      message: 'Error del servidor',
+      message: "Error del servidor",
     });
   }
 };
