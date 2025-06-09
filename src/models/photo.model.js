@@ -4,6 +4,7 @@ const photoSchema = mongoose.Schema(
   {
     description: { type: String, trim: true },
     url: { type: String, required: true },
+    isFavorite: { type: Boolean, default: false },
     cloudinaryId: {
       type: String,
       required: true,

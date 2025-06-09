@@ -60,6 +60,34 @@ exports.uploadPhoto = async (req, res) => {
   }
 };
 
+exports.favoritePhotoUser = async (req, res) => {
+  try {
+    const photoId = req.params.id;
+
+      const photo = await Photo.findById(photoId);
+
+      if(!photo){
+        return res.status(400).json({
+          message: 'Entrada no encontrada'
+        });
+      }
+
+      photo.isFavorite = !photo.isFavorite;
+
+      await photo.save();
+
+      res.status(200).json({
+        message: 'Estado de la entrada actualizado',
+        isFavorite: photo.isFavorite,
+      });
+
+  } catch (error) {
+    res.status(500).json({
+      message: `Error en el servidor: ${error}`,
+    });
+  }
+};
+
 exports.deletePhoto = async (req, res) => {
   try {
     const userId = req.userId;
